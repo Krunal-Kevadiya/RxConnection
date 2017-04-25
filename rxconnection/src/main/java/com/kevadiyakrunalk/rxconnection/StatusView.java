@@ -143,28 +143,32 @@ public class StatusView extends RelativeLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.statusview);
 
         int loadingLayoutId = a.getResourceId(R.styleable.statusview_loading, 0);
+        boolean isListener = a.getBoolean(R.styleable.statusview_only_listener, false);
         int retryId = a.getResourceId(R.styleable.statusview_retry, 0);
         int timerId = a.getResourceId(R.styleable.statusview_timer, 0);
-        if (loadingLayoutId != 0) {
-            loadingview = inflater.inflate(loadingLayoutId, null);
-            if (retryId != 0)
-                retryView = (TextView) loadingview.findViewById(retryId);
-            if (timerId != 0)
-                timerView = (TextView) loadingview.findViewById(timerId);
-        } else {
-            if (loadingLayout != 0)
-                loadingview = inflater.inflate(loadingLayout, null);
-            else
-                loadingview = inflater.inflate(R.layout.sv_layout_loading, null);
 
-            retryView = (TextView) loadingview.findViewById(R.id.retryText);
-            timerView = (TextView) loadingview.findViewById(R.id.timerView);
+        if(!isListener) {
+            if (loadingLayoutId != 0) {
+                loadingview = inflater.inflate(loadingLayoutId, null);
+                if (retryId != 0)
+                    retryView = (TextView) loadingview.findViewById(retryId);
+                if (timerId != 0)
+                    timerView = (TextView) loadingview.findViewById(timerId);
+            } else {
+                if (loadingLayout != 0)
+                    loadingview = inflater.inflate(loadingLayout, null);
+                else
+                    loadingview = inflater.inflate(R.layout.sv_layout_loading, null);
+
+                retryView = (TextView) loadingview.findViewById(R.id.retryText);
+                timerView = (TextView) loadingview.findViewById(R.id.timerView);
+            }
+            loadingview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            addView(loadingview);
+            loadingview.setVisibility(View.INVISIBLE);
         }
-        loadingview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        addView(loadingview);
-
-        loadingview.setVisibility(View.INVISIBLE);
         if (retryView != null)
             retryView.setOnClickListener(new OnClickListener() {
                 @Override

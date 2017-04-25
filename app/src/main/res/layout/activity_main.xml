@@ -13,6 +13,7 @@
         app:loading="@layout/layout_loading"
         app:retry="@+id/retryText1"
         app:timer="@+id/timerView1"
+        app:only_listener="false"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

@@ -4,5 +4,6 @@
         <attr name="retry" format="reference" />
         <attr name="timer" format="reference" />
         <attr name="loading" format="reference" />
+        <attr name="only_listener" format="boolean" />
     </declare-styleable>
 </resources>
