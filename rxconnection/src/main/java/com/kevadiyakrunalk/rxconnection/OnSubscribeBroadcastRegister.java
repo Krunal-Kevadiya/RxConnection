@@ -13,10 +13,10 @@ import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
 
 public class OnSubscribeBroadcastRegister implements Observable.OnSubscribe<Intent> {
-    private final Context context;
-    private final IntentFilter intentFilter;
-    private final String broadcastPermission;
-    private final Handler schedulerHandler;
+    private Context context;
+    private IntentFilter intentFilter;
+    private String broadcastPermission;
+    private Handler schedulerHandler;
 
     public OnSubscribeBroadcastRegister(Context context, IntentFilter intentFilter, String broadcastPermission, Handler schedulerHandler) {
         this.context = context;

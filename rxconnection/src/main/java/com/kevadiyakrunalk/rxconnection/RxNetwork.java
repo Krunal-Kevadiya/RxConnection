@@ -6,6 +6,8 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.lang.ref.WeakReference;
+
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -51,16 +53,17 @@ public class RxNetwork {
         return false;
     }
 
-    public static Observable<Boolean> stream(Context context) {
-        final Context applicationContext = context.getApplicationContext();
-        final IntentFilter action = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+    private static WeakReference<Context> applicationContext;
+    static Observable<Boolean> stream(Context context) {
+        applicationContext = new WeakReference<>(context.getApplicationContext());
+        IntentFilter action = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         return ContentObservable.fromBroadcast(context, action)
                 .startWith((Intent) null)
                 .map(new Func1<Intent, Boolean>() {
                     @Override
                     public Boolean call(Intent ignored) {
                         //return getConnectivityStatus(applicationContext);
-                        return isOnline(applicationContext);
+                        return isOnline(applicationContext.get());
                     }
                 }).distinctUntilChanged();
     }
